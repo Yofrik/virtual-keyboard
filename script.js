@@ -58,5 +58,45 @@ window.addEventListener("load", function() {
         }
       });
 
+    document.addEventListener('keydown', function(e) {
+        const key = [...keyboard.querySelectorAll('.key')].find(k => {
+            const isCapsLock = e.code === 'CapsLock' && k.textContent === 'Caps Lock';
+            const isCtrl = e.code === 'ControlLeft' && k.textContent === 'Ctrl' ||
+                e.code === 'ControlRight' && k.textContent === 'Ctrl';
+            const isWin = e.code === 'MetaLeft' && k.textContent === 'Win';
+            const isSpace = e.code === 'Space' && k.textContent === 'Space';
+            const isDel = e.code === 'Delete' && k.textContent === 'Del';
+            const isArrowUp = e.code === 'ArrowUp' && k.textContent === '↑';
+            const isArrowDown = e.code === 'ArrowDown' && k.textContent === '↓';
+            const isArrowLeft = e.code === 'ArrowLeft' && k.textContent === '←';
+            const isArrowRight = e.code === 'ArrowRight' && k.textContent === '→';
+            return isCapsLock || isCtrl || isWin || isSpace || isDel || isArrowUp || isArrowDown || isArrowLeft || isArrowRight || k.textContent === e.key;
+        });
+        
+        console.log(key)
+        if (key) {
+          key.classList.add('pressed');
+        }
+      });
+      
+    document.addEventListener('keyup', function(e) {
+        const key = [...keyboard.querySelectorAll('.key')].find(k => {
+            const isCapsLock = e.code === 'CapsLock' && k.textContent === 'Caps Lock';
+            const isCtrl = e.code === 'ControlLeft' && k.textContent === 'Ctrl' ||
+                e.code === 'ControlRight' && k.textContent === 'Ctrl';
+            const isWin = e.code === 'MetaLeft' && k.textContent === 'Win';
+            const isSpace = e.code === 'Space' && k.textContent === 'Space';
+            const isDel = e.code === 'Delete' && k.textContent === 'Del';
+            const isArrowUp = e.code === 'ArrowUp' && k.textContent === '↑';
+            const isArrowDown = e.code === 'ArrowDown' && k.textContent === '↓';
+            const isArrowLeft = e.code === 'ArrowLeft' && k.textContent === '←';
+            const isArrowRight = e.code === 'ArrowRight' && k.textContent === '→';
+            return isCapsLock || isCtrl || isWin || isSpace || isDel || isArrowUp || isArrowDown || isArrowLeft || isArrowRight || k.textContent === e.key;
+        });
+        if (key) {
+          key.classList.remove('pressed');
+        }
+      });
+
     document.body.appendChild(keyboard);
 });
