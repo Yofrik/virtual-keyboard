@@ -100,14 +100,39 @@ window.addEventListener("load", function() {
       });
 
     const keys = keyboard.querySelectorAll('.key');
-      console.log(keys)
       keys.forEach(key => {
         key.addEventListener('mousedown', function(e) {
+          var inputString = inputField.value;
+          console.log(key)
           if (key.textContent === 'Ctrl L' || key.textContent === 'Ctrl R' || key.textContent === 'Shift' || key.textContent === 'Alt') {
             return; 
           }
-          key.classList.add('pressed');
-          inputField.value += key.textContent;
+          else if (key.textContent === 'Backspace') {
+            var shortenedString = inputString.substr(0,(inputString.length -1));
+            inputField.value = shortenedString
+          }
+          else if (key.textContent === 'Del') {
+            var selectionStart = inputField.selectionStart;
+            var shortenedString = inputString.slice(0, selectionStart) + inputString.slice(selectionStart + 1);
+            inputField.value = shortenedString;
+          }
+          else if (key.textContent === 'Enter') {
+            inputField.value += '\r\n';
+          }
+          else if (key.textContent === 'Caps Lock') {
+            return;
+          }
+          else if (key.textContent === 'Space') {
+            inputField.value += ' ';
+          }
+          else if (key.textContent === 'Tab') {
+            inputField.value += '  ';
+          }
+          else{
+            key.classList.add('pressed');
+            inputField.value += key.textContent;
+          }
+          
         });
       
         key.addEventListener('mouseup', function(e) {
@@ -116,6 +141,10 @@ window.addEventListener("load", function() {
           }
           key.classList.remove('pressed');
         });
+      });
+
+      inputField.addEventListener('blur', function() {
+        inputField.focus();
       });
 
     document.body.appendChild(keyboard);
