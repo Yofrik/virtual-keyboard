@@ -4,6 +4,7 @@ window.addEventListener("load", function() {
 
     const inputField = document.createElement("textarea");
     inputField.classList.add("input-field");
+    inputField.setAttribute("placeholder", "Смена языка Alt+Shift");
 
     document.body.appendChild(inputField);
     
@@ -22,8 +23,10 @@ window.addEventListener("load", function() {
         ["Shift", "я", "ч", "с", "м", "и", "т", "ь", "б", "ю", ".", "↑", "Shift"],
         ["Ctrl L", "Win", "Alt","Space", "Alt", "Ctrl R","←","↓","→"]
     ];
+    var isEnKeyboard = localStorage.getItem('isEnKeyboard') === 'true';
 
-    keysEn.forEach(row => {
+    if (isEnKeyboard === true){
+      keysEn.forEach(row => {
         const rowEl = document.createElement("div");
         rowEl.classList.add("row");
 
@@ -38,10 +41,25 @@ window.addEventListener("load", function() {
 
         keyboard.appendChild(rowEl);
     });
+    } 
+    else{
+      keysRu.forEach(row => {
+        const rowEl = document.createElement("div");
+        rowEl.classList.add("row");
 
+        row.forEach(key => {
+            const keyEl = document.createElement("button");
+            keyEl.classList.add("key");
+            keyEl.classList.add(key.replace(/ .*/,''));
+            keyEl.textContent = key;
+            rowEl.appendChild(keyEl);
+            
+        });
 
-    let isEnKeyboard = true;
-
+        keyboard.appendChild(rowEl);
+    });
+    }
+    
     const updateKeyboard = () => {
         keyboard.querySelectorAll('.row').forEach((row, rowIndex) => {
             row.querySelectorAll('.key').forEach((key, keyIndex) => {
@@ -55,6 +73,7 @@ window.addEventListener("load", function() {
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Shift' && (event.altKey  || event.metaKey)) {
           isEnKeyboard = !isEnKeyboard;
+          localStorage.setItem('isEnKeyboard', isEnKeyboard);
             updateKeyboard();
         }
       });
@@ -98,8 +117,8 @@ window.addEventListener("load", function() {
           key.classList.remove('pressed');
         }
       });
-
-    const keys = keyboard.querySelectorAll('.key');
+      
+      const keys = keyboard.querySelectorAll('.key');
       keys.forEach(key => {
         key.addEventListener('mousedown', function(e) {
           var inputString = inputField.value;
